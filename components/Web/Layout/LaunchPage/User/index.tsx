@@ -41,11 +41,13 @@ const User: FC<UserProps> = ({ userInfo, loading }) => {
   }, [userInfo]);
 
   if (loading) return null;
+
+  console.log(account.isConnected, userInfo);
   return (
     <div className="relative h-full">
       <div className="relative  flex h-full items-center justify-end" ref={userDropCardRef as any}>
         <div className="flex h-full cursor-pointer items-center justify-end">
-          {account.status === 'connected' && userInfo ? (
+          {account.isConnected && userInfo ? (
             <div className="flex-row-center body-s text-neutral-off-black">
               <div
                 className="relative flex h-[64px]  items-center justify-end"
@@ -82,7 +84,7 @@ const User: FC<UserProps> = ({ userInfo, loading }) => {
                 </DropDownMotion>
               </div>
             </div>
-          ) : !account.isConnecting ? (
+          ) : !account.isConnecting && !account.isConnected ? (
             <div className=" ">
               <div className="body-s relative rounded-[17px] border-[1px] border-[#121BDF] px-[12px] py-[6px] text-neutral-black">
                 Connect Wallet

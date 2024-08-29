@@ -54,6 +54,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ lang, project, className }) => {
   const goDetail = () => {
     redirectToUrl(`/${project.id}`);
   };
+
   return (
     <div className={cn(projectCardVariants({ className, status }))} onClick={goDetail}>
       <div className="flex w-[60%] flex-col justify-center gap-[1rem]">
@@ -75,8 +76,9 @@ const ProjectCard: FC<ProjectCardProps> = ({ lang, project, className }) => {
           <HandleButton project={project} />
         </div>
       </div>
+
       <div className="flex  w-full flex-1 items-center rounded-[1rem] bg-[#F1F2FA] px-[49px]">
-        <Image src={'/images/launch/launch_frame.png'} alt="" width={424} height={400}></Image>
+        {project.id && <Image src={`/images/launch/${project.id}.webp`} alt="" width={424} height={400}></Image>}
       </div>
     </div>
   );

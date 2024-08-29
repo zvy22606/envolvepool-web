@@ -1,7 +1,7 @@
 'use client';
 import Button from '@/components/Common/Button';
 import { BurialPoint } from '@/helper/burialPoint';
-import { setToken } from '@/helper/user-token';
+import { removeToken, setToken } from '@/helper/user-token';
 import useIsPc from '@/hooks/utils/useIsPc';
 import { useRedirect } from '@/hooks/router/useRedirect';
 // import Metamask from '@/public/images/login/metamask.svg';
@@ -15,9 +15,9 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { useUserStore } from '@/store/zustand/userStore';
 import { useShallow } from 'zustand/react/shallow';
-import { useGlobalStore } from '@/store/zustand/globalStore';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
+import { useAccount } from 'wagmi';
 
 interface MetamaskLoginButtonProps {}
 
@@ -26,6 +26,8 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
   const { redirectToUrl } = useRedirect();
   const userInfo = useUserStore((state) => state.userInfo);
   const router = useRouter();
+
+  const wagmiAccount = useAccount();
   const { setAuthType, setUserInfo, setAuthModalOpen } = useUserStore(
     useShallow((state) => ({
       setAuthType: state.setAuthType,
@@ -33,8 +35,6 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
       setAuthModalOpen: state.setAuthModalOpen
     }))
   );
-
-  const setTipsModalOpenState = useGlobalStore((state) => state.setTipsModalOpenState);
 
   const { run: skipInviteCode, loading: skipInviteCodeLoading } = useRequest(
     async (token: string) => {
@@ -47,9 +47,11 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
         setUserInfo(omit(res, 'token') as Omit<LoginResponse, 'token'>);
         BurialPoint.track('signup-Google三方登录输入邀请码登录成功');
         setToken(res.token);
-        setAuthModalOpen(false);
+        // setAuthModalOpen(false);
         // router.refresh();
+        console.log('登录成功');
         window.location.reload();
+        setLoginPending(false);
       },
       onError(e: any) {
         let msg = '';
@@ -71,6 +73,7 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
 
   const login = (address: string) => {
     webApi.userApi.walletVerify(address).then((res) => {
+      console.log('登录结果');
       if (res.status === 'UNACTIVATED') {
         // setAuthType({
         //   type: AuthType.INVITE_CODE,
@@ -81,13 +84,14 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
         // });
         skipInviteCode(res.token);
       } else {
-        console.info(222);
         BurialPoint.track('signup-Metamask第三方登录code验证成功');
         setUserInfo(omit(res, 'token'));
         setToken(res.token);
-        setAuthModalOpen(false);
+        // setAuthModalOpen(false);
         // router.refresh();
+        console.log('登录成功');
         window.location.reload();
+        setLoginPending(false);
       }
     });
   };
@@ -112,13 +116,13 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
               })}
             >
               {(() => {
-                // if (ready) {
-                //   !connected && removeToken();
-                // }
+                if (!loginPending && !wagmiAccount.isConnected && !wagmiAccount.isConnecting && userInfo) {
+                  removeToken();
+                  window.location.reload();
+                }
                 if (!connected || !userInfo) {
-                  if (loginPending && connected) {
-                    login(account.address);
-                    setLoginPending(false);
+                  if (wagmiAccount.address && !userInfo) {
+                    login(wagmiAccount.address);
                   }
                   return (
                     <Button

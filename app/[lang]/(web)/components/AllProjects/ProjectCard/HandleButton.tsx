@@ -22,8 +22,6 @@ const HandleButton: FC<HandleButtonProps> = ({ project }) => {
   const connectModalRef = useRef<ConnectModalInstance>(null);
 
   const userInfo = useUserStore((state) => state.userInfo);
-  const setAuthType = useUserStore((state) => state.setAuthType);
-  const setAuthModalOpen = useUserStore((state) => state.setAuthModalOpen);
   const account = useAccount();
   const { lang } = useContext(LangContext);
   const { t } = useTranslation(lang, TransNs.LAUNCH_POOL);

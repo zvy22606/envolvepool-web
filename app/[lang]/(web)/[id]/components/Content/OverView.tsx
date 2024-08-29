@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React, { useContext, useMemo } from 'react';
-import LaunchImg from '@/public/images/launch/launch_frame.png';
 import { separationNumber } from '@/helper/utils';
 import Button from '@/components/Common/Button';
 import { linkIcons } from '../../constants/data';
@@ -203,10 +202,18 @@ const OverView: React.FC<OverViewProp> = ({}) => {
         };
     }
   };
+
   return (
     <div className="flex gap-[40px]">
-      <div className="flex-center w-[498px] rounded-[16px]  bg-[#F1F2FA]">
-        <Image src={LaunchImg} alt="launch" width={341}></Image>
+      <div className="flex-center relative h-[498px]  w-[498px] rounded-[16px] bg-[#F1F2FA]">
+        {launchInfo.id && (
+          <Image
+            src={`/images/launch/${launchInfo.id}.webp`}
+            alt="launch"
+            fill
+            className="object-contain px-10"
+          ></Image>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-[20px]">
         <div className="">

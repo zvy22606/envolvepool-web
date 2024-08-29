@@ -12,6 +12,8 @@ import LockMask from '../../LockMask';
 import { BiUser } from 'react-icons/bi';
 import { FaLock } from 'react-icons/fa6';
 import { LaunchPoolProjectStatus } from '@/service/webApi/launchPool/type';
+import { useAccount } from 'wagmi';
+import MetamaskLoginButton from '@/components/Web/Business/AuthModal/ThreePartyLogin/MetamaskLoginButton';
 
 interface InfoProp {}
 
@@ -26,6 +28,8 @@ const Info: React.FC<InfoProp> = () => {
     }))
   );
 
+  const account = useAccount();
+
   const statusRender = () => {
     if (loading) return null;
     switch (launchInfo.status) {
@@ -34,9 +38,20 @@ const Info: React.FC<InfoProp> = () => {
           desc: <p className="body-l my-[40px] text-[#0B0D41]">{t('fuelingDescription')}</p>,
           button: (
             <div className="flex justify-center">
-              <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={joinWaitlist}>
-                {t('joinWaitlist')}
-              </Button>
+              {userInfo && account.status === 'connected' ? (
+                <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={joinWaitlist}>
+                  {t('joinWaitlist')}
+                </Button>
+              ) : (
+                <div className="relative">
+                  <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={joinWaitlist}>
+                    {t('joinWaitlist')}
+                  </Button>
+                  <div className="absolute left-0 top-0 h-full w-full opacity-0">
+                    <MetamaskLoginButton />
+                  </div>
+                </div>
+              )}
             </div>
           )
         };
@@ -46,9 +61,20 @@ const Info: React.FC<InfoProp> = () => {
           desc: <p className="body-l my-[40px] text-[#0B0D41]">{t('fuelingDescription')}</p>,
           button: (
             <div className="flex justify-center">
-              <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={participateNow}>
-                {t('participateNow')}
-              </Button>
+              {userInfo && account.status === 'connected' ? (
+                <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={participateNow}>
+                  {t('participateNow')}
+                </Button>
+              ) : (
+                <div className="relative">
+                  <Button type="primary" className="h-[60px] w-[477px] uppercase" onClick={participateNow}>
+                    {t('participateNow')}
+                  </Button>
+                  <div className="absolute left-0 top-0 h-full w-full opacity-0">
+                    <MetamaskLoginButton />
+                  </div>
+                </div>
+              )}
             </div>
           )
         };
@@ -57,14 +83,30 @@ const Info: React.FC<InfoProp> = () => {
         return {
           button: (
             <div className="mt-[24px] flex justify-center">
-              <Button
-                type="primary"
-                className="h-[60px] w-[270px] uppercase"
-                loading={loading}
-                onClick={handleClaimToken}
-              >
-                {t('claimToken')}
-              </Button>
+              {userInfo && account.status === 'connected' ? (
+                <Button
+                  type="primary"
+                  className="h-[60px] w-[270px] uppercase"
+                  loading={loading}
+                  onClick={handleClaimToken}
+                >
+                  {t('claimToken')}
+                </Button>
+              ) : (
+                <div className="relative">
+                  <Button
+                    type="primary"
+                    className="h-[60px] w-[270px] uppercase"
+                    loading={loading}
+                    onClick={handleClaimToken}
+                  >
+                    {t('claimToken')}
+                  </Button>
+                  <div className="absolute left-0 top-0 h-full w-full opacity-0">
+                    <MetamaskLoginButton />
+                  </div>
+                </div>
+              )}
             </div>
           )
         };

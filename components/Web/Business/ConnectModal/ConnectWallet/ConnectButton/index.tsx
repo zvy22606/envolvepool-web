@@ -1,7 +1,7 @@
 'use client';
 import { ConnectButton as RainbowConnectButton } from '@rainbow-me/rainbowkit';
 import { TFunction } from 'i18next';
-import { AuthType, useUserStore } from '@/store/zustand/userStore';
+import { useUserStore } from '@/store/zustand/userStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useRedirect } from '@/hooks/router/useRedirect';
 import webApi from '@/service';
@@ -87,12 +87,6 @@ export const ConnectButton = ({ t, connectState, refreshConnectState }: ConnectB
             {(() => {
               // 未登录状态，弹登录框
 
-              if (!userInfo) {
-                setAuthModalOpen(true);
-                setAuthType(AuthType.LOGIN);
-                return;
-              }
-
               // 未绑定钱包，钱包已连接
 
               // 未绑定钱包，钱包未连接
@@ -123,42 +117,6 @@ export const ConnectButton = ({ t, connectState, refreshConnectState }: ConnectB
               }
 
               return (
-                // <div style={{ display: 'flex', gap: 12 }}>
-                //   <button
-                //     onClick={openChainModal}
-                //     style={{ display: 'flex', alignItems: 'center' }}
-                //     type="button"
-                //   >
-                //     {chain.hasIcon && (
-                //       <div
-                //         style={{
-                //           background: chain.iconBackground,
-                //           width: 12,
-                //           height: 12,
-                //           borderRadius: 999,
-                //           overflow: 'hidden',
-                //           marginRight: 4
-                //         }}
-                //       >
-                //         {chain.iconUrl && (
-                //           <Image
-                //             alt={chain.name ?? 'Chain icon'}
-                //             src={chain.iconUrl}
-                //             width={12}
-                //             height={12}
-                //           />
-                //         )}
-                //       </div>
-                //     )}
-                //     {chain.name}
-                //   </button>
-                //   <button onClick={openAccountModal} type="button">
-                //     {account.displayName}
-                //     {account.displayBalance
-                //       ? ` (${account.displayBalance})`
-                //       : ''}
-                //   </button>
-                // </div>
                 <div className="flex items-center gap-6">
                   <span className="body-l-bold text-neutral-rich-gray">
                     Address: {connectState.connectInfo.username}
