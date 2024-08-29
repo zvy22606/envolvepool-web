@@ -1,0 +1,60 @@
+html {
+  /* 主题黄色 */
+  --yellow-dark: #fad81c;
+  --yellow-primary: #ffe866;
+  --yellow-hover: #fff1a3;
+  --yellow-light: #fff6c2;
+  --yellow-extra-light: #fffae0;
+
+  /* 中性色 */
+  --neutral-black: #0b0b0b;
+  --neutral-off-black: #131313;
+  --neutral-dark-gray: #212121;
+  --neutral-rich-gray: #3e3e3e;
+  --neutral-medium-gray: #8c8c8c;
+  --neutral-light-gray: #dadada;
+  --neutral-off-white: #f4f4f4;
+  --neutral-white: #fff;
+
+  /* 状态色 */
+  --status-success-dark: #06884a;
+  --status-success: #00c365;
+  --status-success-light: #e2fff7;
+  --status-error-dark: #c73333;
+  --status-error: #ff624c;
+  --status-error-light: #fff7f5;
+
+  /* Code */
+  --code-gray: #8e8e8e;
+  --code-dark-blue: #657584;
+  --code-blue: #126b9d;
+  --code-brown: #8e6339;
+  --code-wine-red: #8c0f4a;
+  --code-rose-red: #d5455e;
+  --code-red: #e45050;
+  --code-green: #5d8e24;
+
+  --code-dark-green: #9ed600;
+  --code-purple: #6b6bf6;
+  --text-text-neutral-white: #ededed;
+
+  --plyr-color-main: var(--yellow-primary);
+
+  --status-error-light: #fff7f5;
+  --button-card-card-outline: #5b5b5b;
+  --text-text-neutral-white-on-dark: #f2f2f2;
+  --status-progress-green: #9efa13;
+  --text-text-gray: #676767;
+  --color-dark-bg: #030303;
+  --button-card-button-bg-on-light: rgba(255, 255, 255, 0.7);
+  --codedesbg: #1e1e1e;
+  --color-black: #000;
+  --button-card-dark-gray-button: #2a2a2a;
+
+  --next-book-bold: 'NEXT Book Bold';
+}
+
+[lang='zh'] body {
+  --font-nunito: 'HarmonyOS_Sans_SC' !important;
+  --next-book-bold: 'HarmonyOS_Sans_SC' !important;
+}
