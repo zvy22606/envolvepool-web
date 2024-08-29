@@ -39,7 +39,7 @@ const ProjectLabels: FC<ProjectLabelsProps> = ({ project }) => {
       {LIVE_NOW_STATUS.includes(status) && (
         <LabelWrapper label={t('totalFuel')} value={project.totalFuel.toLocaleString('en-US')} />
       )}
-      <LabelWrapper label={t('projectToken')} value={`$EDU`} />
+      <LabelWrapper label={t('projectToken')} value={project?.rawData?.symbol} />
       <LabelWrapper
         label={t('totalAirdropAmount')}
         value={`${project.airdropRatio * 100}% / ${project.totalAirdropAmount.toLocaleString('en-US')} $EDU`}

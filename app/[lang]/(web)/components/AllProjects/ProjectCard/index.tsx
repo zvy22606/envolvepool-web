@@ -56,10 +56,10 @@ const ProjectCard: FC<ProjectCardProps> = ({ lang, project, className }) => {
   };
   return (
     <div className={cn(projectCardVariants({ className, status }))} onClick={goDetail}>
-      <div className="flex flex-col justify-center gap-[1rem]">
+      <div className="flex w-[60%] flex-col justify-center gap-[1rem]">
         <div className="text-h25 uppercase leading-[32px] text-[#121BDF]">{project.name}</div>
-        <div className="flex flex-col gap-8">
-          <p className="body-l-bold truncate text-[#0B0D41]">{project.about}</p>
+        <div className="flex w-full flex-col gap-8">
+          <p className="body-l-bold w-full overflow-hidden truncate pr-20 text-[#0B0D41]">{project.about}</p>
           {status === LaunchPoolProjectStatus.UPCOMING && <StatusTag status={status!} text={t('upComing')} />}
           {LIVE_NOW_STATUS.includes(status) && <StatusTag status={status!} text={t('liveNow')} />}
           {status === LaunchPoolProjectStatus.END && (
@@ -75,7 +75,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ lang, project, className }) => {
           <HandleButton project={project} />
         </div>
       </div>
-      <div className="flex  items-center rounded-[1rem] bg-[#F1F2FA] px-[49px]">
+      <div className="flex  w-full flex-1 items-center rounded-[1rem] bg-[#F1F2FA] px-[49px]">
         <Image src={'/images/launch/launch_frame.png'} alt="" width={424} height={400}></Image>
       </div>
     </div>

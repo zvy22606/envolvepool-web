@@ -14,7 +14,7 @@ const AllProjects: FC<AllProjectsProps> = async ({ lang, projects }) => {
   return (
     <div className="container mx-auto pb-20" id="all-projects">
       <h2 className="text-h25 mb-[1.25rem] text-center text-[#0B0D41]">{t('allProjects')}</h2>
-      <div className="flex flex-col gap-10">
+      <div className="flex w-full flex-col gap-10">
         {projects.map((project) => {
           return <ProjectCard key={project.id} lang={lang} project={project} />;
         })}

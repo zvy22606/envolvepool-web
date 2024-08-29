@@ -211,10 +211,10 @@ const OverView: React.FC<OverViewProp> = ({}) => {
       <div className="flex flex-1 flex-col gap-[20px]">
         <div className="">
           <div className="item-center flex justify-between">
-            <p className="text-h2 text-[#121BDF]">ChainCrafter</p>
+            <p className="text-h2 text-[#121BDF]">{launchInfo.name}</p>
             {statusRender()?.topTag}
           </div>
-          <h1 className="body-l mt-[4px] text-[#0B0D41]">{launchInfo.name}</h1>
+          <h1 className="body-l mt-[4px] text-[#0B0D41] ">{''}</h1>
         </div>
 
         <div className="body-s flex text-[#0B0D41]">
@@ -235,7 +235,7 @@ const OverView: React.FC<OverViewProp> = ({}) => {
         <div className="body-m text-[rgba(11,13,65,0.5)] [&>div]:mb-[8px]">
           <div className="flex [&>div]:flex-1">
             <div className=""> {t('projectToken')}</div>
-            <div className="text-[#0B0D41]">$EDU</div>
+            <div className="text-[#0B0D41]">{launchInfo?.rawData?.symbol}</div>
           </div>
           {statusRender()?.time}
           <div className="flex [&>div]:flex-1">

@@ -36,6 +36,10 @@ export interface LaunchPoolProjectType {
   createdAt: Date;
   updatedAt: Date;
   userCount: number;
+  rawData: {
+    symbol: string;
+    decimals: number;
+  };
   totalFuel: number;
 }
 
