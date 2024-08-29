@@ -19,13 +19,14 @@ interface UserProps {
   loading: boolean;
 }
 
-const User: FC<UserProps> = ({ userInfo, loading }) => {
+const User: FC<UserProps> = ({ loading }) => {
   const { lang } = useContext(LangContext);
   const { t } = useTranslation(lang, TransNs.LAUNCH_POOL);
   const [showUserDropCard, setShowUserDropCard] = useState(false);
   const userDropCardRef = useRef();
   const [isLogin, setIsLogin] = useState(false);
 
+  const userInfo = useUserStore((state) => state.userInfo);
   const setAuthType = useUserStore((state) => state.setAuthType);
   const setAuthModalOpen = useUserStore((state) => state.setAuthModalOpen);
   const pathname = useCustomPathname();
@@ -42,7 +43,6 @@ const User: FC<UserProps> = ({ userInfo, loading }) => {
 
   if (loading) return null;
 
-  console.log(account.isConnected, userInfo);
   return (
     <div className="relative h-full">
       <div className="relative  flex h-full items-center justify-end" ref={userDropCardRef as any}>

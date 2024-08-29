@@ -14,7 +14,6 @@ import { omit } from 'lodash-es';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { useUserStore } from '@/store/zustand/userStore';
-import { useShallow } from 'zustand/react/shallow';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
@@ -28,13 +27,11 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
   const router = useRouter();
 
   const wagmiAccount = useAccount();
-  const { setAuthType, setUserInfo, setAuthModalOpen } = useUserStore(
-    useShallow((state) => ({
-      setAuthType: state.setAuthType,
-      setUserInfo: state.setUserInfo,
-      setAuthModalOpen: state.setAuthModalOpen
-    }))
-  );
+  const { setAuthType, setUserInfo, setAuthModalOpen } = useUserStore((state) => ({
+    setAuthType: state.setAuthType,
+    setUserInfo: state.setUserInfo,
+    setAuthModalOpen: state.setAuthModalOpen
+  }));
 
   const { run: skipInviteCode, loading: skipInviteCodeLoading } = useRequest(
     async (token: string) => {
@@ -48,9 +45,9 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
         BurialPoint.track('signup-Google三方登录输入邀请码登录成功');
         setToken(res.token);
         // setAuthModalOpen(false);
-        // router.refresh();
-        console.log('登录成功');
-        window.location.reload();
+        router.refresh();
+        // console.log('登录成功');
+        // window.location.reload();
         setLoginPending(false);
       },
       onError(e: any) {
@@ -84,13 +81,14 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
         // });
         skipInviteCode(res.token);
       } else {
+        console.log('2333333');
         BurialPoint.track('signup-Metamask第三方登录code验证成功');
         setUserInfo(omit(res, 'token'));
         setToken(res.token);
         // setAuthModalOpen(false);
-        // router.refresh();
+        router.refresh();
         console.log('登录成功');
-        window.location.reload();
+        // window.location.reload();
         setLoginPending(false);
       }
     });
@@ -121,7 +119,8 @@ const MetamaskLoginButton: React.FC<MetamaskLoginButtonProps> = (props) => {
                   window.location.reload();
                 }
                 if (!connected || !userInfo) {
-                  if (wagmiAccount.address && !userInfo) {
+                  if (wagmiAccount.address && !userInfo && !loginPending) {
+                    setLoginPending(true);
                     login(wagmiAccount.address);
                   }
                   return (
