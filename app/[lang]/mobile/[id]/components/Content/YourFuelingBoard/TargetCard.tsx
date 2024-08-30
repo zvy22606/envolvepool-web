@@ -20,7 +20,7 @@ interface TargetCardProp {
 }
 
 const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
-  const { refreshFuel } = useContext(LaunchDetailContext);
+  const { refreshFuel, launchInfo } = useContext(LaunchDetailContext);
   const [loading, setLoading] = useState(false);
   const { lang } = useContext(LangContext);
   const { t } = useTranslation(lang, TransNs.LAUNCH_POOL);
@@ -42,7 +42,7 @@ const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
     if (!target.completed || (target.completed && target.claimed)) return;
     setLoading(true);
     webApi.launchPoolApi
-      .claimTarget(target.id)
+      .claimTarget(launchInfo.id, target.id)
       .then(() => {
         message.success('success');
         refreshFuel();

@@ -67,9 +67,13 @@ class LaunchPoolApi {
   }
 
   /* 领取 */
-  claimTarget(targetId: string) {
-    const url = `${LaunchPoolApiType.LaunchPoolProjects}/${targetId}/fuels/claim`;
-    return this.service.post(url);
+  claimTarget(projectId: string, targetId: string) {
+    const url = `${LaunchPoolApiType.LaunchPoolProjects}/${projectId}/fuels/claim`;
+    return this.service.post(url, {
+      data: {
+        targetId
+      }
+    });
   }
 
   joinWaitList(projectId: string, email: string) {

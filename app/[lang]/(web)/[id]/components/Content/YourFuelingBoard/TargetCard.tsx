@@ -20,12 +20,10 @@ interface TargetCardProp {
 }
 
 const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
-  const { refreshFuel } = useContext(LaunchDetailContext);
+  const { refreshFuel, launchInfo } = useContext(LaunchDetailContext);
   const [loading, setLoading] = useState(false);
   const { lang } = useContext(LangContext);
   const { t } = useTranslation(lang, TransNs.LAUNCH_POOL);
-  const completed = target.completed;
-  const claimed = target.claimed;
   const icon = () => {
     switch (target.type) {
       case 'JOIN_DISCORD':
@@ -42,7 +40,7 @@ const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
     if (!target.completed || (target.completed && target.claimed)) return;
     setLoading(true);
     webApi.launchPoolApi
-      .claimTarget(target.id)
+      .claimTarget(launchInfo.id, target.id)
       .then(() => {
         message.success('success');
         refreshFuel();
@@ -56,7 +54,7 @@ const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
   };
   return (
     <div
-      className={`body-m item-center relative mt-[16px] flex justify-between gap-[40px] rounded-[16px]   px-[30px] py-[22px] text-[#3E3E3E] ${completed ? 'border border-neutral-light-gray bg-neutral-off-white' : 'bg-neutral-white  shadow-[0_0_8px_0px_rgba(241,242,250,1)]'}`}
+      className={`body-m item-center relative mt-[16px] flex justify-between gap-[40px] rounded-[16px]   px-[30px] py-[22px] text-[#3E3E3E] ${target.completed ? 'border border-neutral-light-gray bg-neutral-off-white' : 'bg-neutral-white  shadow-[0_0_8px_0px_rgba(241,242,250,1)]'}`}
     >
       <div className="flex items-center gap-[19px]">
         <div
@@ -74,11 +72,12 @@ const TargetCard: React.FC<TargetCardProp> = ({ target }) => {
           <span>{`${separationNumber(target.reward)}`}</span>
         </div>
         <Button
+          type="primary"
           loading={loading}
           onClick={claimTarget}
-          className={`button-text-s h-[34px] w-[165px]  uppercase ${!target.completed ? 'cursor-not-allowed bg-neutral-light-gray text-neutral-medium-gray' : target.claimed ? 'cursor-not-allowed bg-yellow-primary text-neutral-black opacity-50' : ''}`}
+          className={`button-text-s h-[34px] w-[165px]  uppercase ${!target.completed ? 'cursor-not-allowed bg-neutral-light-gray text-neutral-medium-gray' : target.claimed ? 'cursor-not-allowed  opacity-50' : ''}`}
         >
-          {`${claimed ? 'claimed' : 'claim'}`}
+          {`${target.claimed ? 'claimed' : 'claim'}`}
         </Button>
       </div>
     </div>
